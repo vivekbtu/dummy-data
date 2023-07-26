@@ -47,9 +47,9 @@ userRouter.get("/get-paginated", async (req, res) => {
 
 
 // post method
-// user/add-movie
+// user/add-user
 
-userRouter.post("/add-movie", async (req, res) => {
+userRouter.post("/add-user", async (req, res) => {
 
     const { first_name } = req.body;
 
@@ -97,12 +97,11 @@ userRouter.get('/get-single', async (req, res) => {
     }
 });
 
-
+// user/search?first_name=Anet
 userRouter.get('/search', async (req, res) => {
 
     try {
         const { first_name } = req.query;
-        // user => user.first_name.toLowerCase().includes(first_name.toLowerCase())
         const searchResults = await Usermodel.find({first_name: first_name});
         return res.send(searchResults);
     }
@@ -125,7 +124,7 @@ userRouter.patch('/update', async (req, res) => {
         first_name: first_name,
     }
     try {
-        // here I am getting response from a function that hold my all logic  
+          
         let response = await UpdatedUser(user, update)
         return res.status(201).send(response)
 
