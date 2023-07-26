@@ -47,9 +47,9 @@ movieRouter.get("/get-paginated", async (req, res) => {
 
 
 // post method
-// user/add-user
+// user/add-movie
 
-movieRouter.post("/add-user", async (req, res) => {
+movieRouter.post("/add-movie", async (req, res) => {
 
     const { MovieName } = req.body;
 
@@ -135,7 +135,6 @@ movieRouter.patch('/update', async (req, res) => {
 })
 
 
-
 // delete method
 // user/delete/64c0e04dc717e8f6202cd55e
 movieRouter.delete("/delete/:userID", async (req, res) => {
@@ -144,7 +143,7 @@ movieRouter.delete("/delete/:userID", async (req, res) => {
 
     try {
         const query = await Moviemodel.findByIdAndDelete({ _id: Id });
-        res.send("User deleted successfully");
+        res.send("Movie deleted successfully");
     }
     catch (err) {
         res.send("Something error in Delete Method")
