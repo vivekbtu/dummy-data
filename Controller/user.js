@@ -16,15 +16,5 @@ const UpdatedUser = async (User, update) => {
     }
 }
 
-const filterByAge= async (minAge, maxAge) => {
-    try{
-        const data = await Moviemodel.find({ age: { $gte: minAge, $lte: maxAge } }).toArray();
-        console.log(data)
-        return { user: doc, message: "Your Filter Informtion" }
-    }
-    catch(error){
-        return {"message":"Something Went Wrong In Filter"};
-    }
-  }
 
-module.exports = { UpdatedUser,filterByAge }
+module.exports = { UpdatedUser }

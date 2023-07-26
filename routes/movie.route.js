@@ -2,7 +2,7 @@
 const express = require("express");
 
 const { Moviemodel } = require("../Models/movie.model.js");
-const { UpdatedUser, filterByAge } = require("../Controller/user.js");
+const { UpdatedUser } = require("../Controller/user.js");
 
 const movieRouter = express.Router();
 
@@ -47,9 +47,9 @@ movieRouter.get("/get-paginated", async (req, res) => {
 
 
 // post method
-// user/add-movie
+// user/add-user
 
-movieRouter.post("/add-movie", async (req, res) => {
+movieRouter.post("/add-user", async (req, res) => {
 
     const { MovieName } = req.body;
 
@@ -136,25 +136,6 @@ movieRouter.patch('/update', async (req, res) => {
 
 
 
-// exports.filterUsersByAge = (req, res) => {
-//     const { minAge, maxAge } = req.query;
-
-//     if (!minAge || !maxAge) {
-//       return res.status(400).json({ error: 'Minimum and maximum age are required' });
-//     }
-
-//     filterByAge(parseInt(minAge), parseInt(maxAge))
-//       .then((users) => {
-//         res.json(users);
-//       })
-//       .catch((err) => {
-//         console.error('Error filtering users by age:', err);
-//         res.status(500).json({ error: 'Failed to filter users by age' });
-//       });
-//   };
-
-
-
 // delete method
 // user/delete/64c0e04dc717e8f6202cd55e
 movieRouter.delete("/delete/:userID", async (req, res) => {
@@ -163,7 +144,7 @@ movieRouter.delete("/delete/:userID", async (req, res) => {
 
     try {
         const query = await Moviemodel.findByIdAndDelete({ _id: Id });
-        res.send("Movie deleted successfully");
+        res.send("User deleted successfully");
     }
     catch (err) {
         res.send("Something error in Delete Method")
