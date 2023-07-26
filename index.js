@@ -2,7 +2,7 @@
 const express = require("express");
 
 const {connection} = require("./config/db");
-const {movieRouter} = require("./routes/movie.route");
+const { userRouter } = require("./routes/users.route.js");
 
 require('dotenv').config();
 
@@ -15,28 +15,28 @@ app.get("/", (req,res) =>{
     res.send("Hello");
 })
 
-// const validator = (req,res, next) => {
+const validator = (req,res, next) => {
 
-//     if(req.method === "POST")
-//     {
-//         const obj = req.body;
+    if(req.method === "POST")
+    {
+        const obj = req.body;
 
-//         if(typeof obj.first_name === "string")
-//         {
-//             next();
-//         }
-//         else{
-//             res.send("Validation Failed");
-//         }
-//     }
-//     else{
-//         next();
-//     }
-// }
+        if(typeof obj.first_name === "string")
+        {
+            next();
+        }
+        else{
+            res.send("Validation Failed");
+        }
+    }
+    else{
+        next();
+    }
+}
 
-// app.use(validator);
+app.use(validator);
 
-app.use("/user", movieRouter);
+app.use("/user", userRouter);
 
 
 const PORT = process.env.PORT;

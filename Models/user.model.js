@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose");
 
-const movieSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     id: Number,
     first_name: String,
     last_name: String,
@@ -12,9 +12,6 @@ const movieSchema = mongoose.Schema({
     available: Boolean,
 
 })
-const Moviemodel = mongoose.model("dummies", movieSchema)
+const Usermodel = mongoose.model("dummies", userSchema)
 
-module.exports = { Moviemodel };
-
-
-
+module.exports = { Usermodel };

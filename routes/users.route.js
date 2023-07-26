@@ -1,18 +1,18 @@
 
 const express = require("express");
 
-const { Moviemodel } = require("../Models/movie.model.js");
+const { Usermodel } = require("../Models/user.model.js");
 const { UpdatedUser } = require("../Controller/user.js");
 
-const movieRouter = express.Router();
+const userRouter = express.Router();
 
 
 // get method
 // user/get-all
-movieRouter.get("/get-all", async (req, res) => {
+userRouter.get("/get-all", async (req, res) => {
     // const params = req.query;
     try {
-        const users = await Moviemodel.find();
+        const users = await Usermodel.find();
         res.send(users);
     }
     catch (err) {
@@ -26,14 +26,14 @@ movieRouter.get("/get-all", async (req, res) => {
 // pagination
 // user/get-paginated?page=1&size=10
 
-movieRouter.get("/get-paginated", async (req, res) => {
+userRouter.get("/get-paginated", async (req, res) => {
 
     const { page, size } = req.query;
     const Id = Number(page);
     const pageSize = Number(size);
 
     try {
-        const users = await Moviemodel.find().limit(pageSize).skip((Id - 1) * pageSize);
+        const users = await Usermodel.find().limit(pageSize).skip((Id - 1) * pageSize);
         res.send(users);
     }
     catch (err) {
@@ -49,20 +49,20 @@ movieRouter.get("/get-paginated", async (req, res) => {
 // post method
 // user/add-movie
 
-movieRouter.post("/add-movie", async (req, res) => {
+userRouter.post("/add-movie", async (req, res) => {
 
-    const { MovieName } = req.body;
+    const { first_name } = req.body;
 
-    const moviePresent = await Moviemodel.findOne({ MovieName });
+    const userPresent = await Usermodel.findOne({ first_name });
 
-    if (moviePresent?.first_name) {
+    if (userPresent?.first_name) {
         return res.status(400).json({ message: "Movie already exist" })
     }
 
     else {
         try {
             const data = req.body;
-            await Moviemodel.insertMany([data])
+            await Usermodel.insertMany([data])
             res.send("Data create");
         }
         catch (err) {
@@ -75,7 +75,7 @@ movieRouter.post("/add-movie", async (req, res) => {
 // get single data method
 // user/get-single?id=64b5024dcd64141538980f7a
 
-movieRouter.get('/get-single', async (req, res) => {
+userRouter.get('/get-single', async (req, res) => {
 
     const { id } = req.query;
 
@@ -84,7 +84,7 @@ movieRouter.get('/get-single', async (req, res) => {
     }
 
     try {
-        const query = await Moviemodel.findOne({ _id: id });
+        const query = await Usermodel.findOne({ _id: id });
         if (!query) {
             return res.status(400).json({ message: "Movie Id is not valid" });
         }
@@ -98,12 +98,12 @@ movieRouter.get('/get-single', async (req, res) => {
 });
 
 
-movieRouter.get('/search', async (req, res) => {
+userRouter.get('/search', async (req, res) => {
 
     try {
         const { first_name } = req.query;
         // user => user.first_name.toLowerCase().includes(first_name.toLowerCase())
-        const searchResults = await Moviemodel.find({first_name: first_name});
+        const searchResults = await Usermodel.find({first_name: first_name});
         return res.send(searchResults);
     }
 
@@ -115,9 +115,9 @@ movieRouter.get('/search', async (req, res) => {
 
 
 // user/update
-movieRouter.patch('/update', async (req, res) => {
+userRouter.patch('/update', async (req, res) => {
     const { _id, first_name } = req.body
-    const user = await Moviemodel.findById(_id)
+    const user = await Usermodel.findById(_id)
     console.log(user);
 
     // here I am creating update object with deafult value provided to ensure whole data get updated
@@ -135,15 +135,17 @@ movieRouter.patch('/update', async (req, res) => {
 })
 
 
+
+
 // delete method
 // user/delete/64c0e04dc717e8f6202cd55e
-movieRouter.delete("/delete/:userID", async (req, res) => {
+userRouter.delete("/delete/:userID", async (req, res) => {
 
     const Id = req.params.userID;
 
     try {
-        const query = await Moviemodel.findByIdAndDelete({ _id: Id });
-        res.send("Movie deleted successfully");
+        const query = await Usermodel.findByIdAndDelete({ _id: Id });
+        res.send("User deleted successfully");
     }
     catch (err) {
         res.send("Something error in Delete Method")
@@ -151,7 +153,5 @@ movieRouter.delete("/delete/:userID", async (req, res) => {
     }
 })
 
-module.exports = { movieRouter };
-
-
+module.exports = { userRouter };
 
