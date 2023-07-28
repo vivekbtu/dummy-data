@@ -113,6 +113,72 @@ userRouter.get('/search', async (req, res) => {
 });
 
 
+
+// Filter
+// user/filter?page=1&size10&domain=Sales&gender=Male&available=
+userRouter.get('/filter', async (req, res) => {
+
+    try {
+        // Get the selected filters from the query parameters
+        const { domain, available, gender, page, size } = req.query;
+
+        const Id = Number(page);
+        const pageSize = Number(size);
+
+        const queryObj = {};
+
+        if (domain) {
+            queryObj.domain = domain
+        }
+
+        if (available) {
+            queryObj.available = available
+        }
+
+        if (gender) {
+            queryObj.gender = gender
+        }
+
+        // Filter the users based on selected filters
+        // {$or: [{domain: domain}, {available: available}] }
+        const filteredUsers = await Usermodel.find(queryObj).limit(pageSize).skip((Id - 1) * pageSize);;
+
+        return res.status(201).send(filteredUsers)
+    }
+
+    catch (error) {
+        console.log(error);
+    }
+});
+
+
+// user/update
+userRouter.patch('/update/:userID', async (req, res) => {
+
+    const Id = req.params.userID;
+    const _id = Id;
+    const user = await Usermodel.findById(_id);
+
+    console.log(user);
+
+    const { first_name, domain, available } = req.body
+    // here I am creating update object with deafult value provided to ensure whole data get updated
+    const update = {
+        first_name: first_name,
+        domain: domain,
+        available: available,
+    }
+    try {
+        // here I am getting response from a function that hold my all logic  
+        let response = await UpdatedUser(user, update)
+        return res.status(201).send(response)
+
+    } catch (error) {
+        return res.status(401).send(error);
+    }
+})
+
+
 // user/update
 userRouter.patch('/update', async (req, res) => {
     const { _id, first_name } = req.body
