@@ -56,7 +56,7 @@ userRouter.post("/add-user", async (req, res) => {
     const userPresent = await Usermodel.findOne({ first_name });
 
     if (userPresent?.first_name) {
-        return res.status(400).json({ message: "Movie already exist" })
+        return res.status(400).json({ message: "User already exist" })
     }
 
     else {
