@@ -180,17 +180,26 @@ userRouter.patch('/update/:userID', async (req, res) => {
 
 
 // user/update
-userRouter.patch('/update', async (req, res) => {
-    const { _id, first_name } = req.body
-    const user = await Usermodel.findById(_id)
+userRouter.patch('/update/:userID', async (req, res) => {
+
+    const Id = req.params.userID;
+    const _id = Id;
+    const user = await Usermodel.findById(_id);
+
     console.log(user);
 
+    const { first_name, last_name, email, gender, domain, available } = req.body
     // here I am creating update object with deafult value provided to ensure whole data get updated
     const update = {
         first_name: first_name,
+        last_name: last_name,
+        email: email,
+        gender: gender,
+        domain: domain,
+        available: available,
     }
     try {
-          
+        // here I am getting response from a function that hold my all logic  
         let response = await UpdatedUser(user, update)
         return res.status(201).send(response)
 
