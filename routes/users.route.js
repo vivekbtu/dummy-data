@@ -80,13 +80,13 @@ userRouter.get('/get-single', async (req, res) => {
     const { id } = req.query;
 
     if (!id) {
-        return res.status(400).json({ message: "Movie Id is required" });
+        return res.status(400).json({ message: "User Id is required" });
     }
 
     try {
         const query = await Usermodel.findOne({ _id: id });
         if (!query) {
-            return res.status(400).json({ message: "Movie Id is not valid" });
+            return res.status(400).json({ message: "User Id is not valid" });
         }
 
         res.send(query);
@@ -161,11 +161,14 @@ userRouter.patch('/update/:userID', async (req, res) => {
 
     console.log(user);
 
-    const { first_name, domain, available } = req.body
+    const { first_name, last_name, email, domain, gender, available } = req.body
     // here I am creating update object with deafult value provided to ensure whole data get updated
     const update = {
         first_name: first_name,
+        last_name: last_name,
+        email: email,
         domain: domain,
+        gender: gender,
         available: available,
     }
     try {
